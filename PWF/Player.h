@@ -5,7 +5,8 @@ class Player
 public:
 	int x_cor;
 	int y_cor;
+	int size;
 
-	Player(double x, double y);
+	Player(int x, int y, int s);
 };
 

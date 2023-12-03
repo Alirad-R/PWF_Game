@@ -1,8 +1,9 @@
 #include "Player.h"
 #include "SFML/Graphics.hpp"
 
-Player::Player(double x, double y) {
+Player::Player(int x, int y, int s) {
 	x_cor = x;
 	y_cor = y;
+	size = s;
 }
 
