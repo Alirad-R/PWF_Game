@@ -7,12 +7,18 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PWF", "PWF\PWF.vcxproj", "{
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		All|x64 = All|x64
+		All|x86 = All|x86
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{326BFF31-A5D4-407C-8E49-62CF7BD2E503}.All|x64.ActiveCfg = All|x64
+		{326BFF31-A5D4-407C-8E49-62CF7BD2E503}.All|x64.Build.0 = All|x64
+		{326BFF31-A5D4-407C-8E49-62CF7BD2E503}.All|x86.ActiveCfg = All|Win32
+		{326BFF31-A5D4-407C-8E49-62CF7BD2E503}.All|x86.Build.0 = All|Win32
 		{326BFF31-A5D4-407C-8E49-62CF7BD2E503}.Debug|x64.ActiveCfg = Debug|x64
 		{326BFF31-A5D4-407C-8E49-62CF7BD2E503}.Debug|x64.Build.0 = Debug|x64
 		{326BFF31-A5D4-407C-8E49-62CF7BD2E503}.Debug|x86.ActiveCfg = Debug|Win32
