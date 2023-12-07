@@ -7,7 +7,7 @@ using namespace std;
 
 int main() {
 
-	std::ifstream openfile("map.txt");
+	std::ifstream openfile("map2.txt");
 	sf::Texture tileTexture;
 	sf::Sprite tiles;
 
@@ -70,8 +70,8 @@ int main() {
 			for (int j = 0; j < loadCounter.y; j++)
 			{
 				if(map[i][j].x != -1 && map[i][j].y != -1){
-					tiles.setPosition(i * 53, j * 53);
-					tiles.setTextureRect(sf::IntRect(map[i][j].x * 53, map[i][j].y * 53, 53, 53));
+					tiles.setPosition(i * 52, j * 52);
+					tiles.setTextureRect(sf::IntRect(map[i][j].x * 52, map[i][j].y * 52, 52, 52));
 					window.draw(tiles);
 				}
 			}
