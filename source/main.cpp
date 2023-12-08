@@ -56,7 +56,7 @@ int main() {
 
 	// -------------------- window --------------------
 	const int Screen_width = 570;
-	const int Screen_height = 620;
+	const int Screen_height = 680;
 
 	sf::RenderWindow window(sf::VideoMode(Screen_width, Screen_height), "play with fire");
 	window.setFramerateLimit(60);
@@ -75,7 +75,7 @@ int main() {
 		}
 
 		//---------------------- update -----------------------
-		player.move();
+		player.update();
 		//---------------------- draw ------------------------
 		window.clear();
 
@@ -90,7 +90,12 @@ int main() {
 				}
 			}
 		}
+
 		window.draw(player.viking);
+		for (int i=0; i<3; i++)
+		{
+		window.draw(player.bomb[i]);
+		}
 
 		window.display();
 	}

@@ -1,4 +1,4 @@
-../../Images/sprite_sheet.png
+../Images/sprite_sheet.png
 1,1 1,1 1,1 1,1 1,1 1,1 1,1 1,1 1,1 1,1 1,1
 1,1 x,x x,x 2,0 1,1 2,0 x,x 3,0 2,0 3,1 1,1
 1,1 x,x 2,0 2,0 x,x 2,0 1,1 x,x 1,1 2,0 1,1
