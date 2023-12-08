@@ -1,7 +1,7 @@
 #pragma once
 #include "SFML/Graphics.hpp"
 #include <iostream>
-
+#include "Bomb.h"
 class Player
 {
 public:
@@ -11,18 +11,21 @@ public:
 
 	sf::Texture bombTex;
 	sf::Sprite bomb[3];
-	int bombIndex;
+	//int bombIndex;
 
-	int hp;
-	int hpMax;
 
-	int keyTime;
+	//int keyTime;
 	//--------------- constructor ------------
 	Player(float x = 75.f, float y = 75.f);
 	//--------------- functions --------------
 	void initVariables();
 	void update();
-	void placeBomb();
-	void takeDamage();
+	//void placeBomb();
+	void decreaseHp();
+	void increaseHp();
+
+private:
+	int hp;
+	const int hpMax = 2;
 };
 

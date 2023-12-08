@@ -1,18 +1,25 @@
 #include <iostream>
-#include "SFML/Graphics.hpp"
-#include "SFML\Window.hpp"
 #include <fstream>
 #include <cctype>
 #include <string>
+#include <list>
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 #include "../header/Player.h"
+
 using namespace std;
+
 
 int main() {
 	// -------------------- player -------------------
 	Player player(53.f, 53.f);
+	list <Bomb*> bombs;
+	int keyTime = 0;
+	int bombIndex = 3;
 
-	// -------------------- map --------------------
-	std::ifstream openfile("../Images/map2.txt");
+
+	// -------------------- read map from file --------------------
+	ifstream openfile("../Images/map2.txt");
 	sf::Texture tileTexture;
 	sf::Sprite tiles;
 
@@ -21,14 +28,14 @@ int main() {
 
 	if (openfile.is_open())
 	{
-		std::string tileLocation;
+		string tileLocation;
 		openfile >> tileLocation;
 		tileTexture.loadFromFile(tileLocation);
 		tiles.setTexture(tileTexture);
 
 		while (!openfile.eof())
 		{
-			std::string str;
+			string str;
 			openfile >> str;
 			char x = str[0], y = str[2];
 			if (!isdigit(x) || !isdigit(y))
@@ -54,13 +61,15 @@ int main() {
 		loadCounter.y = loadCounter.y + 1;
 	}
 
-	// -------------------- window --------------------
+	// -------------------- window setup--------------------
 	const int Screen_width = 570;
 	const int Screen_height = 680;
 
 	sf::RenderWindow window(sf::VideoMode(Screen_width, Screen_height), "play with fire");
 	window.setFramerateLimit(60);
 
+
+	// ------------------------ event handlers --------------------
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -74,9 +83,37 @@ int main() {
 				window.close();
 		}
 
-		//---------------------- update -----------------------
+		//---------------------- updater functions -----------------------
 		player.update();
-		//---------------------- draw ------------------------
+		
+		
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && keyTime > 30)
+		{
+			if (Bomb::bombCount < 3)
+			{
+				bombs.push_back(new Bomb(player.viking.getPosition()));
+				Bomb::bombCount++;
+			}
+
+			if (bombIndex >= 0)
+				bombIndex--;
+			keyTime = 0;
+		}
+		else
+			keyTime++;
+
+		while (bombs.size() > 0 && bombs.front()->bombTimer.getElapsedTime().asSeconds() >= 2)
+		{
+			//bomb destruction function
+			delete bombs.front();
+			bombs.pop_front();
+			Bomb::bombCount--;
+			bombIndex++;
+		}
+
+
+
+		//---------------------- renderer functions ------------------------
 		window.clear();
 
 		for (int i = 0; i < loadCounter.x; i++)
@@ -91,11 +128,15 @@ int main() {
 			}
 		}
 
-		window.draw(player.viking);
-		for (int i=0; i<3; i++)
+		window.draw(player.viking); //render the player
+
+		for (int i=0; i<bombIndex; i++) //render the bottom bombs
 		{
-		window.draw(player.bomb[i]);
+			window.draw(player.bomb[i]);
 		}
+
+		for (auto& i : bombs) //render bombs on map
+			window.draw(i->bomb);
 
 		window.display();
 	}
