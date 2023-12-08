@@ -1,12 +1,21 @@
 #pragma once
+#include "SFML/Graphics.hpp"
+#include <iostream>
 
 class Player
 {
 public:
-	int x_cor;
-	int y_cor;
-	int size;
+	//--------------- variables --------------
+	sf::Texture vikingTex;
+	sf::Sprite viking;
+	int hp;
+	int hpMax;
 
-	Player(int x, int y, int s);
+	//--------------- functions --------------
+	void initVariables();
+	//void initShape();
+	Player(float x = 75.f, float y = 75.f);
+	void takeDamage();
+	void move();
 };
 
