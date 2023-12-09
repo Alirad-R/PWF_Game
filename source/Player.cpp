@@ -10,7 +10,7 @@ Player::Player(float x, float y) :hp(hpMax)
 
 	bombTex.loadFromFile("../Images/bomb.png");
 	float bomb_x = 0;
- 	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; i++)
 	{	
 		bomb[i].setTexture(bombTex);
 		bomb[i].setPosition(bomb_x, 630.f);

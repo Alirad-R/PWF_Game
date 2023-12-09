@@ -5,7 +5,8 @@
 #include <list>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include "../header/Player.h"
+#include "../header/Player.h" 
+#include "../header/GameTiles.h"
 
 using namespace std;
 
@@ -95,7 +96,7 @@ int main() {
 				Bomb::bombCount++;
 			}
 
-			if (bombIndex >= 0)
+			if (bombIndex > 0)
 				bombIndex--;
 			keyTime = 0;
 		}
@@ -123,6 +124,34 @@ int main() {
 				if (map[i][j].x != -1 && map[i][j].y != -1) {
 					tiles.setPosition(i * 52, j * 52);
 					tiles.setTextureRect(sf::IntRect(map[i][j].x * 52, map[i][j].y * 52, 52, 52));
+					if (map[i][j].x == 1 && map[i][j].y == 1) // InDestructable block
+					{
+						GameTiles(i * 52, j * 52, false, false, false, false);
+					}
+					else if (map[i][j].x == 2 && map[i][j].y == 0) { // Destructable block
+						GameTiles(i * 52, j * 52, false, false, false, true);
+					}
+					else if (map[i][j].x == 0 && map[i][j].y == 0) { // Power Up life
+						GameTiles(i * 52, j * 52, true, false, true, false);
+					}
+					else if (map[i][j].x == 1 && map[i][j].y == 2) { // Power Up Unlimited bombs
+						GameTiles(i * 52, j * 52, true, false, true, false);
+					}
+					else if (map[i][j].x == 0 && map[i][j].y == 2) { // Power UP Stop Enemy
+						GameTiles(i * 52, j * 52, true, false, true, false);
+					}
+					else if (map[i][j].x == 0 && map[i][j].y == 1) { // Power UP Speed
+						GameTiles(i * 52, j * 52, true, false, true, false);
+					}
+					else if (map[i][j].x == 3 && map[i][j].y == 1) { // Locked Door
+						GameTiles(i * 52, j * 52, true, false, false, false);
+					}
+					else if (map[i][j].x == 2 && map[i][j].y == 2) { // Unlocked Door
+						GameTiles(i * 52, j * 52, true, true, false, false);
+					}
+					else if (map[i][j].x == 3 && map[i][j].y == 0) { // Enemy
+						GameTiles(i * 52, j * 52, true, false, false, true, true);
+					}
 					window.draw(tiles);
 				}
 			}
