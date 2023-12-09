@@ -41,7 +41,6 @@ void Player::update()
 	{
 		viking.move(0.f, 2);
 	}
-
 }
 
 //void Player::placeBomb()
