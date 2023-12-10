@@ -132,39 +132,39 @@ int main() {
 					tiles.setTextureRect(sf::IntRect(map[i][j].x * 52, map[i][j].y * 52, 52, 52));
 					if (map[i][j].x == 1 && map[i][j].y == 1) // InDestructable block
 					{
-						tile.push_back(GameTiles(tileTexture, i * 52, j * 52, false, false, false, false, false));
+						tile.push_back(GameTiles("../Images/InDestructable_Wall.png", i * 52, j * 52, false, false, false, false, false, false, false, false));
 					}
 					else if (map[i][j].x == 2 && map[i][j].y == 0) // Destructable block
 					{ 
-						tile.push_back(GameTiles(tileTexture, i * 52, j * 52, false, false, false, false, false));
+						tile.push_back(GameTiles("../Images/Destructable_Wall.png", i * 52, j * 52, false, false, false, false, false, false, true, false));
 					}
 					else if (map[i][j].x == 0 && map[i][j].y == 0)  // Power Up life
 					{
-						tile.push_back(GameTiles(tileTexture, i * 52, j * 52, false, false, false, false, false));
+						tile.push_back(GameTiles("../Images/Add_life_power_2.png", i * 52, j * 52, true, false, true, false, false, false, false, false));
 					}
 					else if (map[i][j].x == 1 && map[i][j].y == 2) // Power Up Unlimited bombs
 					{ 
-						tile.push_back(GameTiles(tileTexture, i * 52, j * 52, false, false, false, false, false));
+						tile.push_back(GameTiles("../Images/Unlimited_Bombs_power_1.png", i * 52, j * 52, true, false, false, true, false, false, false, false));
 					}
 					else if (map[i][j].x == 0 && map[i][j].y == 2) // Power UP Stop Enemy
 					{ 
-						tile.push_back(GameTiles(tileTexture, i * 52, j * 52, false, false, false, false, false));
+						tile.push_back(GameTiles("../Images/Stop_Enemy_power_3.png", i * 52, j * 52, true, false, false, false, true, false, false, false));
 					}
 					else if (map[i][j].x == 0 && map[i][j].y == 1) // Power UP Speed
 					{ 
-						tile.push_back(GameTiles(tileTexture, i * 52, j * 52, false, false, false, false, false));
+						tile.push_back(GameTiles("../Images/Increase_speed_power_4.png", i * 52, j * 52, true, false, false, false, false, true, false, false));
 					}
 					else if (map[i][j].x == 3 && map[i][j].y == 1) // Locked Door
 					{ 
-						tile.push_back(GameTiles(tileTexture, i * 52, j * 52, false, false, false, false, false));
+						tile.push_back(GameTiles("../Images/Locked_Door.png", i * 52, j * 52, true, false, false, false, false, false, false, false));
 					}
 					else if (map[i][j].x == 2 && map[i][j].y == 2) // Unlocked Door
 					{ 
-						tile.push_back(GameTiles(tileTexture, i * 52, j * 52, false, false, false, false, false));
+						tile.push_back(GameTiles("../Images/Unlocked_Door.png", i * 52, j * 52, true, true, false, false, false, false, false, false));
 					}
 					else if (map[i][j].x == 3 && map[i][j].y == 0) // Enemy
 					{ 
-						tile.push_back(GameTiles(tileTexture, i * 52, j * 52, false, false, false, false, false));
+						tile.push_back(GameTiles("../Images/Enemy.png", i * 52, j * 52, true, false, false, false, false, false, true, true));
 					}
 					window.draw(tiles);
 				}
