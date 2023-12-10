@@ -12,12 +12,12 @@ using namespace std;
 
 
 int main() {
-	// -------------------- player -------------------
+	// -------------------- objects -------------------
 	Player player(53.f, 53.f);
 	list <Bomb*> bombs;
 	int keyTime = 0;
 	int bombIndex = 3;
-
+	vector<GameTiles> tile;
 
 	// -------------------- read map from file --------------------
 	ifstream openfile("../Images/map2.txt");
@@ -26,6 +26,7 @@ int main() {
 
 	sf::Vector2i map[100][100];
 	sf::Vector2i loadCounter = sf::Vector2i(0, 0);
+
 
 	if (openfile.is_open())
 	{
@@ -85,7 +86,12 @@ int main() {
 		}
 
 		//---------------------- updater functions -----------------------
-		player.update();
+		for (auto i : tile)
+		{ 
+			if (player.viking.getGlobalBounds().intersects(i.sprite.getGlobalBounds()))
+				player.update(i);
+		}
+
 		
 		
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && keyTime > 30)
@@ -126,31 +132,39 @@ int main() {
 					tiles.setTextureRect(sf::IntRect(map[i][j].x * 52, map[i][j].y * 52, 52, 52));
 					if (map[i][j].x == 1 && map[i][j].y == 1) // InDestructable block
 					{
-						GameTiles(i * 52, j * 52, false, false, false, false);
+						tile.push_back(GameTiles(tileTexture, i * 52, j * 52, false, false, false, false, false));
 					}
-					else if (map[i][j].x == 2 && map[i][j].y == 0) { // Destructable block
-						GameTiles(i * 52, j * 52, false, false, false, true);
+					else if (map[i][j].x == 2 && map[i][j].y == 0) // Destructable block
+					{ 
+						tile.push_back(GameTiles(tileTexture, i * 52, j * 52, false, false, false, false, false));
 					}
-					else if (map[i][j].x == 0 && map[i][j].y == 0) { // Power Up life
-						GameTiles(i * 52, j * 52, true, false, true, false);
+					else if (map[i][j].x == 0 && map[i][j].y == 0)  // Power Up life
+					{
+						tile.push_back(GameTiles(tileTexture, i * 52, j * 52, false, false, false, false, false));
 					}
-					else if (map[i][j].x == 1 && map[i][j].y == 2) { // Power Up Unlimited bombs
-						GameTiles(i * 52, j * 52, true, false, true, false);
+					else if (map[i][j].x == 1 && map[i][j].y == 2) // Power Up Unlimited bombs
+					{ 
+						tile.push_back(GameTiles(tileTexture, i * 52, j * 52, false, false, false, false, false));
 					}
-					else if (map[i][j].x == 0 && map[i][j].y == 2) { // Power UP Stop Enemy
-						GameTiles(i * 52, j * 52, true, false, true, false);
+					else if (map[i][j].x == 0 && map[i][j].y == 2) // Power UP Stop Enemy
+					{ 
+						tile.push_back(GameTiles(tileTexture, i * 52, j * 52, false, false, false, false, false));
 					}
-					else if (map[i][j].x == 0 && map[i][j].y == 1) { // Power UP Speed
-						GameTiles(i * 52, j * 52, true, false, true, false);
+					else if (map[i][j].x == 0 && map[i][j].y == 1) // Power UP Speed
+					{ 
+						tile.push_back(GameTiles(tileTexture, i * 52, j * 52, false, false, false, false, false));
 					}
-					else if (map[i][j].x == 3 && map[i][j].y == 1) { // Locked Door
-						GameTiles(i * 52, j * 52, true, false, false, false);
+					else if (map[i][j].x == 3 && map[i][j].y == 1) // Locked Door
+					{ 
+						tile.push_back(GameTiles(tileTexture, i * 52, j * 52, false, false, false, false, false));
 					}
-					else if (map[i][j].x == 2 && map[i][j].y == 2) { // Unlocked Door
-						GameTiles(i * 52, j * 52, true, true, false, false);
+					else if (map[i][j].x == 2 && map[i][j].y == 2) // Unlocked Door
+					{ 
+						tile.push_back(GameTiles(tileTexture, i * 52, j * 52, false, false, false, false, false));
 					}
-					else if (map[i][j].x == 3 && map[i][j].y == 0) { // Enemy
-						GameTiles(i * 52, j * 52, true, false, false, true, true);
+					else if (map[i][j].x == 3 && map[i][j].y == 0) // Enemy
+					{ 
+						tile.push_back(GameTiles(tileTexture, i * 52, j * 52, false, false, false, false, false));
 					}
 					window.draw(tiles);
 				}

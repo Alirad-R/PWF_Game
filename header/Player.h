@@ -2,6 +2,8 @@
 #include "SFML/Graphics.hpp"
 #include <iostream>
 #include "Bomb.h"
+#include "GameTiles.h"
+
 class Player
 {
 public:
@@ -19,7 +21,7 @@ public:
 	Player(float x = 75.f, float y = 75.f);
 	//--------------- functions --------------
 	void initVariables();
-	void update();
+	void update(GameTiles a);
 	//void placeBomb();
 	void decreaseHp();
 	void increaseHp();

@@ -10,9 +10,9 @@ public:
 	bool isDestroyable;
 	bool isEnemy;
 	sf::Vector2f pos;
-	//sf::Texture texture;
-	//sf::Sprite sprite;
-	GameTiles(float x, float y, bool passable, bool exit, bool power, bool destructable, bool enemy = false);
-	//bool setUpSprite(std::string);
+	sf::Texture texture;
+	sf::Sprite sprite;
+	GameTiles(sf::Texture texture, float x = 0, float y = 0, bool passable = true, bool exit = true, bool power = true, bool destructable = true, bool enemy = false);
+	bool setUpSprite(std::string, sf::Vector2i loadCounter);
 };
 

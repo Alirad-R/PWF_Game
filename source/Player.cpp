@@ -6,6 +6,7 @@ Player::Player(float x, float y) :hp(hpMax)
 {
 	vikingTex.loadFromFile("../Images/viking.png");
 	viking.setTexture(vikingTex);
+	viking.setScale(0.9f, 0.9f);
 	viking.setPosition(x, y);
 
 	bombTex.loadFromFile("../Images/bomb.png");
@@ -22,24 +23,48 @@ void Player::decreaseHp(){ hp--; }
 
 void Player::increaseHp(){ hp++; }
 
-void Player::update()
+void Player::update(GameTiles a)
 {
-	//Keyboard input
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	if (a.isPassable)
 	{
-		viking.move(-2.f, 0.f);
+		//Keyboard input
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		{
+			viking.move(-2.f, 0.f);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		{
+			viking.move(2.f, 0.f);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		{
+			viking.move(0.f, -2.f);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		{
+			viking.move(0.f, 2);
+		}
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+
+	else
 	{
-		viking.move(2.f, 0.f);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-	{
-		viking.move(0.f, -2.f);
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-	{
-		viking.move(0.f, 2);
+		//Keyboard input
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		{
+			viking.move(0.3, 0.f);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		{
+			viking.move(-0.3, 0.f);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		{
+			viking.move(0.f, 0.3);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		{
+			viking.move(0.f, -0.3);
+		}
 	}
 }
 
