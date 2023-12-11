@@ -5,11 +5,26 @@
 #include <list>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include "../header/Player.h" 
+#include "../header/Player.h"
 #include "../header/GameTiles.h"
+#include "../header/GameTileTypes.h"
 
+using sf::Texture;
 using namespace std;
 
+void loadMapTextures
+(
+	Texture* border,
+	Texture* passable,
+	Texture* destructableBlock,
+	Texture* exitLocked,
+	Texture* exitUnlocked,
+	Texture* powerLife,
+	Texture* powerUnlimBomb,
+	Texture* powerStopEnemy,
+	Texture* powerSpeed,
+	Texture* enemy
+);
 
 int main() {
 	// -------------------- objects -------------------
@@ -18,6 +33,13 @@ int main() {
 	int keyTime = 0;
 	int bombIndex = 3;
 	vector<GameTiles> tile;
+	Texture border,
+		passable, destructable, exitLock,
+		exitUnlock,	powerLife, powerUnlimBomb,
+		powerStopEnemy,	powerSpeed,	enemy;
+
+	loadMapTextures(&border, &passable, &destructable, &exitLock, &exitUnlock, &powerLife
+		, &powerUnlimBomb, &powerStopEnemy, &powerSpeed, &enemy);
 
 	// -------------------- read map from file --------------------
 	ifstream openfile("../Images/map2.txt");
@@ -89,7 +111,7 @@ int main() {
 		for (auto i : tile)
 		{ 
 			if (player.viking.getGlobalBounds().intersects(i.sprite.getGlobalBounds()))
-				player.update(i);
+				player.update(i.getTileType());
 		}
 
 		
@@ -132,39 +154,39 @@ int main() {
 					tiles.setTextureRect(sf::IntRect(map[i][j].x * 52, map[i][j].y * 52, 52, 52));
 					if (map[i][j].x == 1 && map[i][j].y == 1) // InDestructable block
 					{
-						tile.push_back(GameTiles("../Images/InDestructable_Wall.png", i * 52, j * 52, false, false, false, false, false, false, false, false));
+						tile.push_back(GameTiles(border, i * 52, j * 52, Border));
 					}
 					else if (map[i][j].x == 2 && map[i][j].y == 0) // Destructable block
 					{ 
-						tile.push_back(GameTiles("../Images/Destructable_Wall.png", i * 52, j * 52, false, false, false, false, false, false, true, false));
+						tile.push_back(GameTiles(destructable, i * 52, j * 52, Destroyable));
 					}
 					else if (map[i][j].x == 0 && map[i][j].y == 0)  // Power Up life
 					{
-						tile.push_back(GameTiles("../Images/Add_life_power_2.png", i * 52, j * 52, true, false, true, false, false, false, false, false));
+						tile.push_back(GameTiles(powerLife, i * 52, j * 52, Power_life));
 					}
 					else if (map[i][j].x == 1 && map[i][j].y == 2) // Power Up Unlimited bombs
 					{ 
-						tile.push_back(GameTiles("../Images/Unlimited_Bombs_power_1.png", i * 52, j * 52, true, false, false, true, false, false, false, false));
+						tile.push_back(GameTiles(powerUnlimBomb, i * 52, j * 52, Power_UnlimBombs));
 					}
 					else if (map[i][j].x == 0 && map[i][j].y == 2) // Power UP Stop Enemy
 					{ 
-						tile.push_back(GameTiles("../Images/Stop_Enemy_power_3.png", i * 52, j * 52, true, false, false, false, true, false, false, false));
+						tile.push_back(GameTiles(powerStopEnemy, i * 52, j * 52, Power_StopEnemy));
 					}
 					else if (map[i][j].x == 0 && map[i][j].y == 1) // Power UP Speed
 					{ 
-						tile.push_back(GameTiles("../Images/Increase_speed_power_4.png", i * 52, j * 52, true, false, false, false, false, true, false, false));
+						tile.push_back(GameTiles(powerSpeed, i * 52, j * 52, Power_Speed));
 					}
 					else if (map[i][j].x == 3 && map[i][j].y == 1) // Locked Door
 					{ 
-						tile.push_back(GameTiles("../Images/Locked_Door.png", i * 52, j * 52, true, false, false, false, false, false, false, false));
+						tile.push_back(GameTiles(exitLock, i * 52, j * 52, ExitLocked));
 					}
 					else if (map[i][j].x == 2 && map[i][j].y == 2) // Unlocked Door
 					{ 
-						tile.push_back(GameTiles("../Images/Unlocked_Door.png", i * 52, j * 52, true, true, false, false, false, false, false, false));
+						tile.push_back(GameTiles(exitUnlock, i * 52, j * 52, ExitUnlocked));
 					}
 					else if (map[i][j].x == 3 && map[i][j].y == 0) // Enemy
 					{ 
-						tile.push_back(GameTiles("../Images/Enemy.png", i * 52, j * 52, true, false, false, false, false, false, true, true));
+						tile.push_back(GameTiles(enemy, i * 52, j * 52, Enemy));
 					}
 					window.draw(tiles);
 				}
@@ -175,7 +197,7 @@ int main() {
 
 		for (int i=0; i<bombIndex; i++) //render the bottom bombs
 		{
-			window.draw(player.bomb[i]);
+			window.draw(player.bombBar[i]);
 		}
 
 		for (auto& i : bombs) //render bombs on map
@@ -184,3 +206,27 @@ int main() {
 		window.display();
 	}
 }
+
+void loadMapTextures(
+	Texture* border,
+	Texture* passable,
+	Texture* destructableBlock,
+	Texture* exitLocked,
+	Texture* exitUnlocked,
+	Texture* powerLife,
+	Texture* powerUnlimBomb,
+	Texture* powerStopEnemy,
+	Texture* powerSpeed,
+	Texture* enemy)
+{
+	border->loadFromFile("../Images/InDestructable_Wall.png");
+	destructableBlock->loadFromFile("../Images/Destructable_Wall.png");
+	exitLocked->loadFromFile("../Images/Locked_Door.png");
+	exitUnlocked->loadFromFile("../Images/Unlocked_Door.png");
+	powerLife->loadFromFile("../Images/Add_life_power_2.png");
+	powerUnlimBomb->loadFromFile("../Images/Unlimited_Bombs_power_1.png");
+	powerStopEnemy->loadFromFile("../Images/Stop_Enemy_power_3.png");
+	powerSpeed->loadFromFile("../Images/Increase_speed_power_4.png");
+	enemy->loadFromFile("../Images/Enemy.png");
+}
+
