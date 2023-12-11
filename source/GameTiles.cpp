@@ -18,7 +18,7 @@
 //}
 
 
-GameTiles::GameTiles(sf::Texture& texture, float x, float y, GameTile tileType)
+GameTiles::GameTiles(sf::Texture& texture, float x, float y, gameTile tileType)
 {
 	/*if (!setUpSprite(textureName))
 		throw 0;*/
@@ -27,11 +27,11 @@ GameTiles::GameTiles(sf::Texture& texture, float x, float y, GameTile tileType)
 	pos = sf::Vector2f(x, y);
 	sprite.setTexture(this->texture);
 	sprite.setPosition(pos);
-	this->tileType;
+	this->tileType = tileType;
 }
 
 
-GameTile GameTiles::getTileType()
+gameTile GameTiles::getTileType()
 {
 	return tileType;
 }

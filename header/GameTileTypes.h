@@ -1,5 +1,5 @@
 #pragma once
-enum GameTile
+enum gameTile
 {
 	Border = 0,
 	Passable,

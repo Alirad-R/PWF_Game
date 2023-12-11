@@ -43,7 +43,7 @@ int main()
 		, &powerUnlimBomb, &powerStopEnemy, &powerSpeed, &enemy);
 	sf::Vector2f vikingPrevPosition;
 	sf::Vector2f vikingPrev;
-	GameTile mytile;
+	gameTile mytile;
 	bool touch = false;
 	// -------------------- window setup --------------------
 	const int Screen_width = 570;
@@ -177,7 +177,6 @@ int main()
 
 		if (touch)
 		{
-			player.viking.setPosition(vikingPrevPosition);
 			switch (mytile)
 			{
 				case Enemy:
@@ -185,14 +184,15 @@ int main()
 					player.decreaseHp();
 					break;
 				}
-				case Border:
+				case Destroyable:
 				{
 					player.viking.setPosition(vikingPrevPosition);
 					break;
 				}
-				case Destroyable:
+				case Border:
 				{
-					//yek tabe ke block hai atraf ro az vector hazf kone 
+					player.viking.setPosition(vikingPrevPosition);
+					break;
 				}
 				case ExitUnlocked:
 				{
@@ -221,7 +221,7 @@ int main()
 				}
 				case Passable:
 				{
-			 		player.update();
+					player.update();
 					break;
 				}
 			}

@@ -8,10 +8,10 @@ public:
 	sf::Vector2f pos;
 	sf::Texture texture;
 	sf::Sprite sprite;
-	GameTiles(sf::Texture& texture, float x = 0, float y = 0, GameTile tileType = Destroyable);
-	GameTile getTileType();
+	GameTiles(sf::Texture& texture, float x = 0, float y = 0, gameTile tileType = Destroyable);
+	gameTile getTileType();
 private:
-	GameTile tileType;
+	gameTile tileType;
 
 
 };
