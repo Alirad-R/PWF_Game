@@ -7,8 +7,8 @@ Bomb::Bomb(sf::Vector2f cordinate)
 {
 	bombTex.loadFromFile("../Images/bomb.png");
 	bomb.setTexture(bombTex);
-	int x = int(cordinate.x);
-	int y = int(cordinate.y);
+	int x = int(cordinate.x + 3);
+	int y = int(cordinate.y + 3);
 	bomb.setPosition(x - x % 52, y - y % 52);
 
 	float bomb_x = 0;

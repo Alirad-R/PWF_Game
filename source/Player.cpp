@@ -13,48 +13,23 @@ void Player::decreaseHp(){ hp--; }
 
 void Player::increaseHp(){ hp++; }
 
-void Player::update(GameTile tileType)
+void Player::update()
 {
-	if (tileType == Passable)
+	//Keyboard input
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		//Keyboard input
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		{
-			viking.move(-2.f, 0.f);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		{
-			viking.move(2.f, 0.f);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-		{
-			viking.move(0.f, -2.f);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		{
-			viking.move(0.f, 2);
-		}
-
+		viking.move(-2.f, 0.f);
 	}
-
-	else
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		//Keyboard input
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		{
-			viking.move(0.3, 0.f);
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		{
-			viking.move(-0.3, 0.f);
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-		{
-			viking.move(0.f, 0.3);
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		{
-			viking.move(0.f, -0.3);
-		}
+		viking.move(2.f, 0.f);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	{
+		viking.move(0.f, -2.f);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		viking.move(0.f, 2);
 	}
 }

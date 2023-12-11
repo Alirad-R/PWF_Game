@@ -16,7 +16,7 @@ public:
 	Player(float x = 75.f, float y = 75.f);
 	//--------------- functions --------------
 	void initVariables();
-	void update(GameTile tileType);
+	void update();
 	void decreaseHp();
 	void increaseHp();
 

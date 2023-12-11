@@ -1,7 +1,7 @@
 #pragma once
 enum GameTile
 {
-	Border,
+	Border = 0,
 	Passable,
 	Destroyable,
 	ExitLocked,
@@ -10,5 +10,5 @@ enum GameTile
 	Power_UnlimBombs,
 	Power_StopEnemy,
 	Power_Speed,
-	Enemy
+	Enemy 
 };

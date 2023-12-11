@@ -17,28 +17,17 @@
 //	isEnemy = enemy;
 //}
 
-//bool GameTiles::setUpSprite(std::string textureName) 
-//{
-//	if (!texture.loadFromFile(textureName)) {
-//		return false;
-//	}
-//	texture.loadFromFile(textureName);
-//	texture.setSmooth(true);
-//	sprite.setTexture(texture);
-//	//sprite.setTextureRect(sf::IntRect(0, 0, 52, 52));
-//	return true;
-//}
 
 GameTiles::GameTiles(sf::Texture& texture, float x, float y, GameTile tileType)
 {
 	/*if (!setUpSprite(textureName))
 		throw 0;*/
 
-	//setUpSprite(textureName);
 	this->texture = texture;
 	pos = sf::Vector2f(x, y);
+	sprite.setTexture(this->texture);
 	sprite.setPosition(pos);
-
+	this->tileType;
 }
 
 

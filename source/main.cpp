@@ -26,20 +26,30 @@ void loadMapTextures
 	Texture* enemy
 );
 
-int main() {
-	// -------------------- objects -------------------
+int main()
+{
+	// -------------------- initialize -------------------
 	Player player(53.f, 53.f);
 	list <Bomb*> bombs;
 	int keyTime = 0;
 	int bombIndex = 3;
-	vector<GameTiles> tile;
+	vector<GameTiles*> tile;
 	Texture border,
 		passable, destructable, exitLock,
-		exitUnlock,	powerLife, powerUnlimBomb,
-		powerStopEnemy,	powerSpeed,	enemy;
+		exitUnlock, powerLife, powerUnlimBomb,
+		powerStopEnemy, powerSpeed, enemy;
 
 	loadMapTextures(&border, &passable, &destructable, &exitLock, &exitUnlock, &powerLife
 		, &powerUnlimBomb, &powerStopEnemy, &powerSpeed, &enemy);
+	sf::Vector2f vikingPrevPosition;
+	sf::Vector2f vikingPrev;
+	GameTile mytile;
+	// -------------------- window setup --------------------
+	const int Screen_width = 570;
+	const int Screen_height = 680;
+
+	sf::RenderWindow window(sf::VideoMode(Screen_width, Screen_height), "play with fire");
+	window.setFramerateLimit(60);
 
 	// -------------------- read map from file --------------------
 	ifstream openfile("../Images/map2.txt");
@@ -48,6 +58,7 @@ int main() {
 
 	sf::Vector2i map[100][100];
 	sf::Vector2i loadCounter = sf::Vector2i(0, 0);
+
 
 
 	if (openfile.is_open())
@@ -84,13 +95,56 @@ int main() {
 
 		loadCounter.y = loadCounter.y + 1;
 	}
+	// --------------------- initialize map -----------------
 
-	// -------------------- window setup--------------------
-	const int Screen_width = 570;
-	const int Screen_height = 680;
+	for (int i = 0; i < loadCounter.x; i++)
+	{
+		for (int j = 0; j < loadCounter.y; j++)
+		{
+			if (map[i][j].x != -1 && map[i][j].y != -1) {
+				tiles.setPosition(i * 52, j * 52);
+				tiles.setTextureRect(sf::IntRect(map[i][j].x * 52, map[i][j].y * 52, 52, 52));
+				if (map[i][j].x == 1 && map[i][j].y == 1) // InDestructable block
+				{
+					tile.push_back(new GameTiles(border, i * 52, j * 52, Border));
+				}
+				else if (map[i][j].x == 2 && map[i][j].y == 0) // Destructable block
+				{
+					tile.push_back(new GameTiles(destructable, i * 52, j * 52, Destroyable));
+				}
+				else if (map[i][j].x == 0 && map[i][j].y == 0)  // Power Up life
+				{
+					tile.push_back(new GameTiles(powerLife, i * 52, j * 52, Power_life));
+				}
+				else if (map[i][j].x == 1 && map[i][j].y == 2) // Power Up Unlimited bombs
+				{
+					tile.push_back(new GameTiles(powerUnlimBomb, i * 52, j * 52, Power_UnlimBombs));
+				}
+				else if (map[i][j].x == 0 && map[i][j].y == 2) // Power UP Stop Enemy
+				{
+					tile.push_back(new GameTiles(powerStopEnemy, i * 52, j * 52, Power_StopEnemy));
+				}
+				else if (map[i][j].x == 0 && map[i][j].y == 1) // Power UP Speed
+				{
+					tile.push_back(new GameTiles(powerSpeed, i * 52, j * 52, Power_Speed));
+				}
+				//else if (map[i][j].x == 2 && map[i][j].y == 2) // Unlocked Door
+				//{
+				//	tile.push_back(new GameTiles(exitUnlock, i * 52, j * 52, ExitUnlocked));
+				//}
+				else if (map[i][j].x == 3 && map[i][j].y == 1) // Locked Door
+				{
+					tile.push_back(new GameTiles(exitLock, i * 52, j * 52, ExitLocked));
+				}
+				else if (map[i][j].x == 3 && map[i][j].y == 0) // Enemy
+				{
+					tile.push_back(new GameTiles(enemy, i * 52, j * 52, Enemy));
+				}
 
-	sf::RenderWindow window(sf::VideoMode(Screen_width, Screen_height), "play with fire");
-	window.setFramerateLimit(60);
+			}
+		}
+	}
+
 
 
 	// ------------------------ event handlers --------------------
@@ -108,13 +162,60 @@ int main() {
 		}
 
 		//---------------------- updater functions -----------------------
+		vikingPrev = player.viking.getPosition();
+		bool touch = false;
 		for (auto i : tile)
-		{ 
-			if (player.viking.getGlobalBounds().intersects(i.sprite.getGlobalBounds()))
-				player.update(i.getTileType());
+		{
+			if (player.viking.getGlobalBounds().intersects(i->sprite.getGlobalBounds()))
+			{
+				mytile = i->getTileType();
+				touch = true;
+			}
 		}
 
-		
+		if (touch)
+		{
+			player.viking.setPosition(vikingPrevPosition);
+			//switch (mytile)
+			//{
+			//	case(Enemy):
+			//	{
+			//		player.viking.setPosition(vikingPrevPosition);
+			//		break;
+			//	}
+				//case Border:
+				//{
+				//	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+				//	{
+				//		player.viking.move(0.3, 0.f);
+				//	}
+				//	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+				//	{
+				//		player.viking.move(-0.3, 0.f);
+				//	}
+				//	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+				//	{
+				//		player.viking.move(0.f, 0.3);
+				//	}
+				//	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+				//	{
+				//		player.viking.move(0.f, -0.3);
+				//	}
+				//	break;
+				//}
+			//	default:
+			//	{
+			//		break;
+			//	}
+			//}
+			//mytile = Passable;
+		}
+		else
+		{
+			player.update();
+		}
+		vikingPrevPosition = vikingPrev;
+
 		
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && keyTime > 30)
 		{
@@ -145,67 +246,26 @@ int main() {
 		//---------------------- renderer functions ------------------------
 		window.clear();
 
-		for (int i = 0; i < loadCounter.x; i++)
-		{
-			for (int j = 0; j < loadCounter.y; j++)
-			{
-				if (map[i][j].x != -1 && map[i][j].y != -1) {
-					tiles.setPosition(i * 52, j * 52);
-					tiles.setTextureRect(sf::IntRect(map[i][j].x * 52, map[i][j].y * 52, 52, 52));
-					if (map[i][j].x == 1 && map[i][j].y == 1) // InDestructable block
-					{
-						tile.push_back(GameTiles(border, i * 52, j * 52, Border));
-					}
-					else if (map[i][j].x == 2 && map[i][j].y == 0) // Destructable block
-					{ 
-						tile.push_back(GameTiles(destructable, i * 52, j * 52, Destroyable));
-					}
-					else if (map[i][j].x == 0 && map[i][j].y == 0)  // Power Up life
-					{
-						tile.push_back(GameTiles(powerLife, i * 52, j * 52, Power_life));
-					}
-					else if (map[i][j].x == 1 && map[i][j].y == 2) // Power Up Unlimited bombs
-					{ 
-						tile.push_back(GameTiles(powerUnlimBomb, i * 52, j * 52, Power_UnlimBombs));
-					}
-					else if (map[i][j].x == 0 && map[i][j].y == 2) // Power UP Stop Enemy
-					{ 
-						tile.push_back(GameTiles(powerStopEnemy, i * 52, j * 52, Power_StopEnemy));
-					}
-					else if (map[i][j].x == 0 && map[i][j].y == 1) // Power UP Speed
-					{ 
-						tile.push_back(GameTiles(powerSpeed, i * 52, j * 52, Power_Speed));
-					}
-					else if (map[i][j].x == 3 && map[i][j].y == 1) // Locked Door
-					{ 
-						tile.push_back(GameTiles(exitLock, i * 52, j * 52, ExitLocked));
-					}
-					else if (map[i][j].x == 2 && map[i][j].y == 2) // Unlocked Door
-					{ 
-						tile.push_back(GameTiles(exitUnlock, i * 52, j * 52, ExitUnlocked));
-					}
-					else if (map[i][j].x == 3 && map[i][j].y == 0) // Enemy
-					{ 
-						tile.push_back(GameTiles(enemy, i * 52, j * 52, Enemy));
-					}
-					window.draw(tiles);
-				}
-			}
-		}
+		for (auto t : tile)
+			window.draw(t->sprite);
 
 		window.draw(player.viking); //render the player
 
-		for (int i=0; i<bombIndex; i++) //render the bottom bombs
+		for (int i = 0; i < bombIndex; i++) //render the bottom bombs
 		{
-			window.draw(player.bombBar[i]);
+			//window.draw(player.bombBar[i]);
 		}
 
 		for (auto& i : bombs) //render bombs on map
 			window.draw(i->bomb);
 
 		window.display();
+
 	}
 }
+		
+	
+
 
 void loadMapTextures(
 	Texture* border,
