@@ -44,6 +44,7 @@ int main()
 	sf::Vector2f vikingPrevPosition;
 	sf::Vector2f vikingPrev;
 	GameTile mytile;
+	bool touch = false;
 	// -------------------- window setup --------------------
 	const int Screen_width = 570;
 	const int Screen_height = 680;
@@ -162,8 +163,9 @@ int main()
 		}
 
 		//---------------------- updater functions -----------------------
+		mytile = Passable;
+		touch = false;
 		vikingPrev = player.viking.getPosition();
-		bool touch = false;
 		for (auto i : tile)
 		{
 			if (player.viking.getGlobalBounds().intersects(i->sprite.getGlobalBounds()))
@@ -176,39 +178,53 @@ int main()
 		if (touch)
 		{
 			player.viking.setPosition(vikingPrevPosition);
-			//switch (mytile)
-			//{
-			//	case(Enemy):
-			//	{
-			//		player.viking.setPosition(vikingPrevPosition);
-			//		break;
-			//	}
-				//case Border:
-				//{
-				//	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-				//	{
-				//		player.viking.move(0.3, 0.f);
-				//	}
-				//	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-				//	{
-				//		player.viking.move(-0.3, 0.f);
-				//	}
-				//	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-				//	{
-				//		player.viking.move(0.f, 0.3);
-				//	}
-				//	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-				//	{
-				//		player.viking.move(0.f, -0.3);
-				//	}
-				//	break;
-				//}
-			//	default:
-			//	{
-			//		break;
-			//	}
-			//}
-			//mytile = Passable;
+			switch (mytile)
+			{
+				case Enemy:
+				{
+					player.decreaseHp();
+					break;
+				}
+				case Border:
+				{
+					player.viking.setPosition(vikingPrevPosition);
+					break;
+				}
+				case Destroyable:
+				{
+					//yek tabe ke block hai atraf ro az vector hazf kone 
+				}
+				case ExitUnlocked:
+				{
+					player.viking.setPosition(vikingPrevPosition);
+					break;
+				}
+				case ExitLocked:
+				{
+					//bazi ba piroozy tamom she
+				}
+				case Power_life:
+				{
+					break;
+				}
+				case Power_Speed:
+				{
+					break;
+				}
+				case Power_StopEnemy:
+				{
+					break;
+				}
+				case Power_UnlimBombs:
+				{
+					break;
+				}
+				case Passable:
+				{
+			 		player.update();
+					break;
+				}
+			}
 		}
 		else
 		{
