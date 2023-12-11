@@ -15,7 +15,6 @@ public:
 	//--------------- constructor ------------
 	Player(float x = 75.f, float y = 75.f);
 	//--------------- functions --------------
-	void initVariables();
 	void update();
 	void decreaseHp();
 	void increaseHp();

@@ -5,7 +5,6 @@ Player::Player(float x, float y) :hp(hpMax)
 {
 	vikingTex.loadFromFile("../Images/viking.png");
 	viking.setTexture(vikingTex);
-	viking.setScale(0.9f, 0.9f);
 	viking.setPosition(x, y);
 }
 
