@@ -8,9 +8,17 @@
 #include "../header/Player.h"
 #include "../header/GameTiles.h"
 #include "../header/GameTileTypes.h"
+#include "../header/Menu.h"
 
 using sf::Texture;
 using namespace std;
+
+enum GameState {
+	MENU,
+	PLAYING
+};
+
+GameState currentSate = MENU;
 
 void loadMapTextures
 (
@@ -51,6 +59,10 @@ int main()
 
 	sf::RenderWindow window(sf::VideoMode(Screen_width, Screen_height), "play with fire");
 	window.setFramerateLimit(60);
+
+	// -------------------- Render Menu ---------------------
+
+	Menu menu(window.getSize().x, window.getSize().y);
 
 	// -------------------- read map from file --------------------
 	ifstream openfile("../Images/map2.txt");
@@ -160,6 +172,40 @@ int main()
 
 			if (event.KeyPressed && event.key.code == sf::Keyboard::Escape)
 				window.close();
+
+			if (event.type == sf::Event::KeyPressed) {
+				if (currentSate == MENU)
+				{
+					if (event.key.code == sf::Keyboard::Up)
+					{
+						menu.MoveUp();
+					}
+					else if (event.key.code == sf::Keyboard::Down)
+					{
+						menu.MoveDown();
+					}
+					else if (event.key.code == sf::Keyboard::Return)
+					{
+						switch (menu.GetPressedItem())
+						{
+						case 0:
+							std::cout << "Play button has been pressed" << std::endl;
+							currentSate = PLAYING;
+							break;
+						case 1:
+							std::cout << "Option button has been pressed" << std::endl;
+							//menu.OptionPressed();
+							break;
+						case 2:
+							window.close();
+						}
+					}
+				}
+				else if (currentSate == PLAYING)
+				{
+
+				}
+			}
 		}
 
 		//---------------------- updater functions -----------------------
@@ -262,18 +308,25 @@ int main()
 		//---------------------- renderer functions ------------------------
 		window.clear();
 
-		for (auto t : tile)
-			window.draw(t->sprite);
-
-		window.draw(player.viking); //render the player
-
-		for (int i = 0; i < bombIndex; i++) //render the bottom bombs
+		if (currentSate == MENU)
 		{
-			//window.draw(player.bombBar[i]);
+			menu.draw(window);
 		}
+		else if (currentSate == PLAYING)
+		{
+			for (auto t : tile)
+				window.draw(t->sprite);
 
-		for (auto& i : bombs) //render bombs on map
-			window.draw(i->bomb);
+			window.draw(player.viking); //render the player
+
+			for (int i = 0; i < bombIndex; i++) //render the bottom bombs
+			{
+				//window.draw(player.bombBar[i]);
+			}
+
+			for (auto& i : bombs) //render bombs on map
+				window.draw(i->bomb);
+		}
 
 		window.display();
 
