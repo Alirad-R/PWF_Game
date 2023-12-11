@@ -14,9 +14,9 @@ public:
 	int GetPressedItem() {
 		return selectedItemIndex;
 	}
-	void OptionPressed();
+	//void OptionPressed();
 
-private:
+protected:
 	int selectedItemIndex;
 	sf::Font font;
 	sf::Text menu[MAX_NUMBER_OF_ITEMS];

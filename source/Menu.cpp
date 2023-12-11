@@ -49,12 +49,12 @@ void Menu::MoveDown() {
 	}
 }
 
-void Menu::OptionPressed() {
-	sf::Text help;
-	help.setFont(font);
-	help.setFillColor(sf::Color::White);
-	help.setString("This is for your help");
-}
+//void Menu::OptionPressed() {
+//	sf::Text help;
+//	help.setFont(font);
+//	help.setFillColor(sf::Color::White);
+//	help.setString("This is for your help");
+//}
 
 Menu::~Menu() {
 

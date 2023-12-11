@@ -9,12 +9,14 @@
 #include "../header/GameTiles.h"
 #include "../header/GameTileTypes.h"
 #include "../header/Menu.h"
+#include "../header/OptionMenu.h"
 
 using sf::Texture;
 using namespace std;
 
 enum GameState {
 	MENU,
+	OPTIONS_MENU,
 	PLAYING
 };
 
@@ -63,6 +65,7 @@ int main()
 	// -------------------- Render Menu ---------------------
 
 	Menu menu(window.getSize().x, window.getSize().y);
+	OptionsMenu optionMenu(window.getSize().x, window.getSize().y);
 
 	// -------------------- read map from file --------------------
 	ifstream openfile("../Images/map2.txt");
@@ -194,10 +197,27 @@ int main()
 							break;
 						case 1:
 							std::cout << "Option button has been pressed" << std::endl;
-							//menu.OptionPressed();
+							currentSate = OPTIONS_MENU;
+							
 							break;
 						case 2:
 							window.close();
+						}
+					}
+				}
+				else if (currentSate == OPTIONS_MENU)
+				{
+					if (event.key.code == sf::Keyboard::Return) {
+						switch (optionMenu.GetPressedItem()) {
+						case 0:
+							std::cout << "Help option selected" << std::endl;
+							//optionMenu.DisplayHelp(window);
+							break;
+						case 1:
+							std::cout << "Back option selected" << std::endl;
+							currentSate = MENU;
+							break;
+							// Add more options handling as needed
 						}
 					}
 				}
@@ -311,6 +331,9 @@ int main()
 		if (currentSate == MENU)
 		{
 			menu.draw(window);
+		}
+		else if (currentSate == OPTIONS_MENU) {
+			optionMenu.draw(window);
 		}
 		else if (currentSate == PLAYING)
 		{
