@@ -12,6 +12,7 @@ public:
 
 	sf::Sprite bombBar[3];
 
+	Bomb();
 	Bomb(sf::Vector2f cordinate);
 private:
 

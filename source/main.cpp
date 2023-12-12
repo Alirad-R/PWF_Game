@@ -41,9 +41,13 @@ int main()
 	// -------------------- initialize -------------------
 	Player player(53.f, 53.f);
 	list <Bomb*> bombs;
+	Bomb dummyBomb;
 	int keyTime = 0;
 	int bombIndex = 3;
 	vector<GameTiles*> tile;
+	vector<sf::Sprite> enemies;
+	sf::Sprite bombSprite;
+
 	Texture border,
 		passable, destructable, exitLock,
 		exitUnlock, powerLife, powerUnlimBomb,
@@ -155,6 +159,7 @@ int main()
 				else if (map[i][j].x == 3 && map[i][j].y == 0) // Enemy
 				{
 					tile.push_back(new GameTiles(enemy, i * 52, j * 52, Enemy));
+					enemies.push_back(tile[tile.size() - 1]->sprite);
 				}
 
 			}
@@ -232,13 +237,29 @@ int main()
 		mytile = Passable;
 		touch = false;
 		vikingPrev = player.viking.getPosition();
-		for (auto i : tile)
+		for (auto &i : tile)
 		{
 			if (player.viking.getGlobalBounds().intersects(i->sprite.getGlobalBounds()))
 			{
 				mytile = i->getTileType();
 				touch = true;
 			}
+			/*if (bombSprite.getGlobalBounds().intersects(i->sprite.getGlobalBounds()))
+			{
+				switch (i->getTileType())
+				{
+					case Enemy:
+					{
+						delete i;
+						break;
+					}
+					case Destroyable:
+					{
+						delete i;
+						break;
+					}
+				}
+			}*/
 		}
 
 		if (touch)
@@ -297,13 +318,25 @@ int main()
 			player.update();
 		}
 		vikingPrevPosition = vikingPrev;
-
+		
+		for (int i = 0; i < enemies.size(); i++)
+		{
+			if (i%2)
+			{
+				enemies[i].setPosition(enemies[i].getPosition().x + 10.f, enemies[i].getPosition().y);
+			}
+			else
+			{
+				enemies[i].setPosition(enemies[i].getPosition().x, enemies[i].getPosition().y + 10.f);
+			}
+		}
 		
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && keyTime > 30)
 		{
 			if (Bomb::bombCount < 3)
 			{
 				bombs.push_back(new Bomb(player.viking.getPosition()));
+				bombSprite = bombs.front()->bomb;
 				Bomb::bombCount++;
 			}
 
@@ -344,11 +377,13 @@ int main()
 
 			for (int i = 0; i < bombIndex; i++) //render the bottom bombs
 			{
-				//window.draw(player.bombBar[i]);
+				window.draw(dummyBomb.bombBar[i]);
 			}
 
 			for (auto& i : bombs) //render bombs on map
 				window.draw(i->bomb);
+			for (const auto& i : enemies)
+				window.draw(i);
 		}
 
 		window.display();
