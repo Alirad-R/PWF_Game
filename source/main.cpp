@@ -25,6 +25,8 @@ enum GameState {
 
 GameState currentSate = MENU;
 
+int main();
+
 void loadMapTextures
 (
 	Texture* border,
@@ -42,7 +44,7 @@ void loadMapTextures
 int main()
 {
 	// -------------------- initialize -------------------
-	const int countdownDuration = 10;
+	const int countdownDuration = 200;
 	sf::Clock timerClock;
 	//sf::Time timerTime = sf::seconds(countdownDuration);
 
@@ -67,6 +69,7 @@ int main()
 	sf::Vector2f vikingPrev;
 	gameTile mytile;
 	bool touch = false;
+
 	// -------------------- window setup --------------------
 	const int Screen_width = 570;
 	const int Screen_height = 680;
@@ -166,7 +169,7 @@ int main()
 				else if (map[i][j].x == 3 && map[i][j].y == 0) // Enemy
 				{
 					tile.push_back(new GameTiles(enemy, i * 52, j * 52, Enemy));
-					enemies.push_back(tile.back());
+					//enemies.push_back(tile.back());
 				}
 
 			}
@@ -249,6 +252,53 @@ int main()
 		}
 
 		//---------------------- updater functions -----------------------
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && keyTime > 30)
+		{
+			if (Bomb::bombCount < 3)
+			{
+				bombs.push_back(new Bomb(player.viking.getPosition()));
+				Bomb::bombCount++;
+			}
+
+			if (bombIndex > 0)
+				bombIndex--;
+			keyTime = 0;
+		}
+		else
+			keyTime++;
+
+		while (bombs.size() > 0 && bombs.front()->bombTimer.getElapsedTime().asSeconds() >= 2)
+		{
+			//bomb destruction function
+			//bombSprite = bombs.front()->bomb;
+			for (auto& i : tile)
+			{
+				if (bombs.front()->bomb.getGlobalBounds().intersects(i->sprite.getGlobalBounds()))
+				{
+					switch (i->getTileType())
+					{
+						case Enemy:
+						{
+							delete i;
+							break;
+						}
+						case Destroyable:
+						{
+							//cout << i->sprite.getPosition().x << "," << i->sprite.getPosition().y << " ";
+							delete i;
+							break;
+						}
+					}
+				}
+
+			}
+			delete bombs.front();
+			bombs.pop_front();
+			Bomb::bombCount--;
+			bombIndex++;
+		}
+
+
 		mytile = Passable;
 		touch = false;
 		vikingPrev = player.viking.getPosition();
@@ -259,7 +309,7 @@ int main()
 				mytile = i->getTileType();
 				touch = true;
 			}
-			/*if (bombSprite.getGlobalBounds().intersects(i->sprite.getGlobalBounds()))
+			if (bombSprite.getGlobalBounds().intersects(i->sprite.getGlobalBounds()))
 			{
 				switch (i->getTileType())
 				{
@@ -270,11 +320,12 @@ int main()
 					}
 					case Destroyable:
 					{
-						delete i;
+						cout << i->sprite.getPosition().x << "," << i->sprite.getPosition().y << " ";
+						
 						break;
 					}
 				}
-			}*/
+			}
 
 		}
 		/*float incrementor = 0.5f;
@@ -357,32 +408,6 @@ int main()
 		}
 		vikingPrevPosition = vikingPrev;
 		
-		
-		
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && keyTime > 30)
-		{
-			if (Bomb::bombCount < 3)
-			{
-				bombs.push_back(new Bomb(player.viking.getPosition()));
-				bombSprite = bombs.front()->bomb;
-				Bomb::bombCount++;
-			}
-
-			if (bombIndex > 0)
-				bombIndex--;
-			keyTime = 0;
-		}
-		else
-			keyTime++;
-
-		while (bombs.size() > 0 && bombs.front()->bombTimer.getElapsedTime().asSeconds() >= 2)
-		{
-			//bomb destruction function
-			delete bombs.front();
-			bombs.pop_front();
-			Bomb::bombCount--;
-			bombIndex++;
-		}
 
 		
 
@@ -444,7 +469,10 @@ int main()
 
 
 				for (auto t : tile)
-					window.draw(t->sprite);
+				{
+					//if (t != NULL)
+					//	window.draw(t->sprite);
+				}
 
 				window.draw(player.viking); //render the player
 
