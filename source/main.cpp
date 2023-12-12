@@ -10,6 +10,7 @@
 #include "../header/GameTileTypes.h"
 #include "../header/Menu.h"
 #include "../header/OptionMenu.h"
+#include "../header/Enemy.h"
 
 using sf::Texture;
 using namespace std;
@@ -45,7 +46,7 @@ int main()
 	int keyTime = 0;
 	int bombIndex = 3;
 	vector<GameTiles*> tile;
-	vector<sf::Sprite> enemies;
+	vector<GameTiles*> enemies;
 	sf::Sprite bombSprite;
 
 	Texture border,
@@ -159,7 +160,7 @@ int main()
 				else if (map[i][j].x == 3 && map[i][j].y == 0) // Enemy
 				{
 					tile.push_back(new GameTiles(enemy, i * 52, j * 52, Enemy));
-					enemies.push_back(tile[tile.size() - 1]->sprite);
+					enemies.push_back(tile.back());
 				}
 
 			}
@@ -260,7 +261,30 @@ int main()
 					}
 				}
 			}*/
+
 		}
+		/*float incrementor = 0.5f;
+		for (int j = 0; j < enemies.size(); j++)
+		{
+			for (auto t : tile)
+			{
+				if (enemies[j]->sprite.getGlobalBounds().intersects(t->sprite.getGlobalBounds()))
+				{
+					incrementor = -incrementor;
+				}
+			}
+				if (j%2)
+				{
+					enemies[j]->sprite.move(0.f, incrementor);
+
+				}
+				else
+				{
+					enemies[j]->sprite.move(incrementor, 0.f);
+				}
+
+			
+		}*/
 
 		if (touch)
 		{
@@ -319,17 +343,7 @@ int main()
 		}
 		vikingPrevPosition = vikingPrev;
 		
-		for (int i = 0; i < enemies.size(); i++)
-		{
-			if (i%2)
-			{
-				enemies[i].setPosition(enemies[i].getPosition().x + 10.f, enemies[i].getPosition().y);
-			}
-			else
-			{
-				enemies[i].setPosition(enemies[i].getPosition().x, enemies[i].getPosition().y + 10.f);
-			}
-		}
+		
 		
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && keyTime > 30)
 		{
@@ -382,8 +396,9 @@ int main()
 
 			for (auto& i : bombs) //render bombs on map
 				window.draw(i->bomb);
-			for (const auto& i : enemies)
-				window.draw(i);
+			
+			for (auto i : enemies) //render enemies on map
+				window.draw(i->sprite);
 		}
 
 		window.display();
