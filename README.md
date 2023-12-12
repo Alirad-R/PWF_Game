@@ -1,4 +1,4 @@
 # Playing with fire game
 Mahdi Emami
-Mohammad Mahdi Nasrollahi
+Mohammadmahdi Nasrollahi
 Ali Radmard
