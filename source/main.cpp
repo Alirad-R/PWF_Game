@@ -67,7 +67,6 @@ int main()
 	window.setFramerateLimit(60);
 
 	// -------------------- Render Menu ---------------------
-
 	Menu menu(window.getSize().x, window.getSize().y);
 	OptionsMenu optionMenu(window.getSize().x, window.getSize().y);
 
@@ -212,11 +211,19 @@ int main()
 				}
 				else if (currentSate == OPTIONS_MENU)
 				{
-					if (event.key.code == sf::Keyboard::Return) {
+					if (event.key.code == sf::Keyboard::Up)
+					{
+						optionMenu.MoveUp();
+					}
+					else if (event.key.code == sf::Keyboard::Down)
+					{
+						optionMenu.MoveDown();
+					}
+					else if (event.key.code == sf::Keyboard::Return) {
 						switch (optionMenu.GetPressedItem()) {
 						case 0:
 							std::cout << "Help option selected" << std::endl;
-							//optionMenu.DisplayHelp(window);
+							optionMenu.DisplayHelp(window);
 							break;
 						case 1:
 							std::cout << "Back option selected" << std::endl;

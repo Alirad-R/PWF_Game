@@ -56,6 +56,13 @@ void Menu::MoveDown() {
 //	help.setString("This is for your help");
 //}
 
+//void Menu::updateMenuSize(float width, float height) {
+//	for (int i = 0; i < MAX_NUMBER_OF_ITEMS; i++) {
+//		menu[i].setPosition(sf::Vector2f(width / 2 , height / (MAX_NUMBER_OF_ITEMS + 1) * (i + 1)));
+//		menu[i].setCharacterSize(10);
+//	}
+//}
+
 Menu::~Menu() {
 
 }
