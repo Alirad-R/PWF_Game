@@ -42,7 +42,7 @@ void loadMapTextures
 int main()
 {
 	// -------------------- initialize -------------------
-	const int countdownDuration = 120;
+	const int countdownDuration = 10;
 	sf::Clock timerClock;
 	//sf::Time timerTime = sf::seconds(countdownDuration);
 
@@ -403,48 +403,86 @@ int main()
 
 			int elapsedTime = timerClock.getElapsedTime().asSeconds();
 			int remainingTime = countdownDuration - elapsedTime;
-
-			int minutes = remainingTime / 60;
-			int seconds = remainingTime % 60;
-
-
-			sf::Font font;
-			font.loadFromFile("../Images/absci___.ttf");
-
-			sf::Text timerText;
-			timerText.setFont(font);
-			timerText.setCharacterSize(20);
-			timerText.setFillColor(sf::Color::White);
-			timerText.setPosition(250.f, Screen_height - 40.f);  // Adjust the position as needed
-
-			/*int secondsRemaining = static_cast<int>(timerTime.asSeconds());
-			std::string timerString = "Time: " + std::to_string(static_cast<int>(timerTime.asSeconds())) + "s";*/
-			std::stringstream timerString;
-			timerString << "Time: " << std::setw(2) << std::setfill('0') << minutes
-				<< ":" << std::setw(2) << std::setfill('0') << seconds;
-			timerText.setString(timerString.str());
-			window.draw(timerText);
-
-
-
-
-
-
-			for (auto t : tile)
-				window.draw(t->sprite);
-
-			window.draw(player.viking); //render the player
-
-			for (int i = 0; i < bombIndex; i++) //render the bottom bombs
+			if (remainingTime > 0)
 			{
-				window.draw(dummyBomb.bombBar[i]);
-			}
+				sf::Texture LivesTexture;
+				LivesTexture.loadFromFile("../Images/lives.png");
+				sf::Sprite spriteLives;
+				sf::Sprite spriteLives2;
+				spriteLives.setTexture(LivesTexture);
+				spriteLives.setPosition(515, Screen_height - 50.f);
+				window.draw(spriteLives);
+				spriteLives2.setTexture(LivesTexture);
+				spriteLives2.setPosition(455, Screen_height - 50.f);
+				window.draw(spriteLives2);
 
-			for (auto& i : bombs) //render bombs on map
-				window.draw(i->bomb);
+
+				int minutes = remainingTime / 60;
+				int seconds = remainingTime % 60;
+
+
+				sf::Font font;
+				font.loadFromFile("../Images/absci___.ttf");
+
+				sf::Text timerText;
+				timerText.setFont(font);
+				timerText.setCharacterSize(20);
+				timerText.setFillColor(sf::Color::White);
+				timerText.setPosition(250.f, Screen_height - 40.f);  // Adjust the position as needed
+
+				/*int secondsRemaining = static_cast<int>(timerTime.asSeconds());
+				std::string timerString = "Time: " + std::to_string(static_cast<int>(timerTime.asSeconds())) + "s";*/
+				std::stringstream timerString;
+				timerString << "Time: " << std::setw(2) << std::setfill('0') << minutes
+					<< ":" << std::setw(2) << std::setfill('0') << seconds;
+				timerText.setString(timerString.str());
+				window.draw(timerText);
+
+
+
+
+
+
+				for (auto t : tile)
+					window.draw(t->sprite);
+
+				window.draw(player.viking); //render the player
+
+				for (int i = 0; i < bombIndex; i++) //render the bottom bombs
+				{
+					window.draw(dummyBomb.bombBar[i]);
+				}
+
+				for (auto& i : bombs) //render bombs on map
+					window.draw(i->bomb);
+
+				for (auto i : enemies) //render enemies on map
+					window.draw(i->sprite);
+			}
+			else
+			{
+				window.clear();
+
+				sf::Font font;
+				font.loadFromFile("../Images/absci___.ttf");
+
+				// Draw "GameOver" text or any other game over screen
+				sf::Text gameOverText;
+				gameOverText.setFont(font);
+				gameOverText.setCharacterSize(50);
+				gameOverText.setFillColor(sf::Color::Red);
+				gameOverText.setPosition(Screen_width / 2.f, Screen_height / 2.f);
+				gameOverText.setString("GameOver");
+
+				// Draw the "GameOver" text
+				window.draw(gameOverText);
+
+				// Display the window content
+
+				// Add any additional logic for handling GameOver, such as ending the game
+				// You might want to break out of the main loop, show a score screen, etc.
+			}
 			
-			for (auto i : enemies) //render enemies on map
-				window.draw(i->sprite);
 		}
 
 		window.display();
