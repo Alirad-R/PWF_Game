@@ -3,6 +3,8 @@
 #include <cctype>
 #include <string>
 #include <list>
+#include <sstream>
+#include <iomanip>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include "../header/Player.h"
@@ -39,9 +41,9 @@ void loadMapTextures
 int main()
 {
 	// -------------------- initialize -------------------
-	const int countdownDuration = 60;
+	const int countdownDuration = 120;
 	sf::Clock timerClock;
-	sf::Time timerTime = sf::seconds(countdownDuration);
+	//sf::Time timerTime = sf::seconds(countdownDuration);
 
 
 	Player player(53.f, 53.f);
@@ -368,12 +370,7 @@ int main()
 			bombIndex++;
 		}
 
-		timerTime -= timerClock.restart();
-		if (timerTime <= sf::Time::Zero) {
-			// Timer has reached zero, perform actions or reset the timer as needed
-			// For example, end the game or reset the timer for another round
-			timerTime = sf::seconds(countdownDuration);  // Reset the timer
-		}
+		
 
 
 
@@ -389,6 +386,14 @@ int main()
 		}
 		else if (currentSate == PLAYING)
 		{
+
+			int elapsedTime = timerClock.getElapsedTime().asSeconds();
+			int remainingTime = countdownDuration - elapsedTime;
+
+			int minutes = remainingTime / 60;
+			int seconds = remainingTime % 60;
+
+
 			sf::Font font;
 			font.loadFromFile("../Images/absci___.ttf");
 
@@ -398,10 +403,15 @@ int main()
 			timerText.setFillColor(sf::Color::White);
 			timerText.setPosition(250.f, Screen_height - 40.f);  // Adjust the position as needed
 
-			int secondsRemaining = static_cast<int>(timerTime.asSeconds());
-			std::string timerString = "Time: " + std::to_string(static_cast<int>(timerTime.asSeconds())) + "s";
-			timerText.setString(timerString);
+			/*int secondsRemaining = static_cast<int>(timerTime.asSeconds());
+			std::string timerString = "Time: " + std::to_string(static_cast<int>(timerTime.asSeconds())) + "s";*/
+			std::stringstream timerString;
+			timerString << "Time: " << std::setw(2) << std::setfill('0') << minutes
+				<< ":" << std::setw(2) << std::setfill('0') << seconds;
+			timerText.setString(timerString.str());
 			window.draw(timerText);
+
+
 
 
 
