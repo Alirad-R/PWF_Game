@@ -271,6 +271,9 @@ int main()
 		{
 			//bomb destruction function
 			//bombSprite = bombs.front()->bomb;
+			if (player.viking.getGlobalBounds().intersects(bombs.front()->bomb.getGlobalBounds()))
+				player.decreaseHp();
+
 			b: for (auto &i : tile)
 			{
 				if (i->sprite.getGlobalBounds().intersects(bombs.front()->bomb.getGlobalBounds()))
@@ -429,7 +432,7 @@ int main()
 
 			int elapsedTime = timerClock.getElapsedTime().asSeconds();
 			int remainingTime = countdownDuration - elapsedTime;
-			if (remainingTime > 0)
+			if (remainingTime > 0 && player.hp > 0)
 			{
 				sf::Texture LivesTexture;
 				LivesTexture.loadFromFile("../Images/lives.png");

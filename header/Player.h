@@ -18,9 +18,10 @@ public:
 	void update();
 	void decreaseHp();
 	void increaseHp();
+	//int gethp();
+	int hp;
 
 private:
-	int hp;
-	const int hpMax = 2;
+	const int hpMax = 3;
 };
 

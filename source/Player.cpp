@@ -7,11 +7,17 @@ Player::Player(float x, float y) :hp(hpMax)
 	viking.setTexture(vikingTex);
 	viking.setScale(0.9, 0.9);
 	viking.setPosition(x, y);
+	hp = 2;
 }
 
 void Player::decreaseHp(){ hp--; }
 
 void Player::increaseHp(){ hp++; }
+
+//int Player::gethp()
+//{
+//	return hp;
+//}
 
 void Player::update()
 {
