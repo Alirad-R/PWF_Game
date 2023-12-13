@@ -17,7 +17,8 @@
 using sf::Texture;
 using namespace std;
 
-enum GameState {
+enum GameState 
+{
 	MENU,
 	OPTIONS_MENU,
 	PLAYING
