@@ -271,21 +271,20 @@ int main()
 		{
 			//bomb destruction function
 			//bombSprite = bombs.front()->bomb;
-			for (auto& i : tile)
+			for (auto &i : tile)
 			{
-				if (bombs.front()->bomb.getGlobalBounds().intersects(i->sprite.getGlobalBounds()))
+				if (i->sprite.getGlobalBounds().intersects(bombs.front()->bomb.getGlobalBounds()))
 				{
 					switch (i->getTileType())
 					{
 						case Enemy:
 						{
-							delete i;
+							remove(tile.begin(), tile.end(), i);
 							break;
 						}
 						case Destroyable:
 						{
-							//cout << i->sprite.getPosition().x << "," << i->sprite.getPosition().y << " ";
-							delete i;
+							remove(tile.begin(), tile.end(), i);
 							break;
 						}
 					}
@@ -309,23 +308,23 @@ int main()
 				mytile = i->getTileType();
 				touch = true;
 			}
-			if (bombSprite.getGlobalBounds().intersects(i->sprite.getGlobalBounds()))
-			{
-				switch (i->getTileType())
-				{
-					case Enemy:
-					{
-						delete i;
-						break;
-					}
-					case Destroyable:
-					{
-						cout << i->sprite.getPosition().x << "," << i->sprite.getPosition().y << " ";
-						
-						break;
-					}
-				}
-			}
+			//if (bombSprite.getGlobalBounds().intersects(i->sprite.getGlobalBounds()))
+			//{
+			//	switch (i->getTileType())
+			//	{
+			//		case Enemy:
+			//		{
+			//			delete i;
+			//			break;
+			//		}
+			//		case Destroyable:
+			//		{
+			//			cout << i->sprite.getPosition().x << "," << i->sprite.getPosition().y << " ";
+			//			
+			//			break;
+			//		}
+			//	}
+			//}
 
 		}
 		/*float incrementor = 0.5f;
@@ -358,6 +357,7 @@ int main()
 				case Enemy:
 				{
 					player.decreaseHp();
+					player.viking.setPosition(vikingPrevPosition);
 					break;
 				}
 				case Destroyable:
@@ -470,8 +470,7 @@ int main()
 
 				for (auto t : tile)
 				{
-					//if (t != NULL)
-					//	window.draw(t->sprite);
+						window.draw(t->sprite);
 				}
 
 				window.draw(player.viking); //render the player

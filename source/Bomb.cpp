@@ -20,10 +20,10 @@ Bomb::Bomb(sf::Vector2f cordinate)
 {
 	bombTex.loadFromFile("../Images/bomb.png");
 	bomb.setTexture(bombTex);
-	bomb.setScale(1.1, 1.1);
-	int x = int(cordinate.x + 3);
-	int y = int(cordinate.y + 3);
-	bomb.setPosition(x - x % 51, y - y % 51);
+	bomb.setScale(1.2, 1.2);
+	int x = int(cordinate.x + 25);
+	int y = int(cordinate.y + 25);
+	bomb.setPosition(x - x % 52 - 3, y - y % 52 -3);
 
 	float bomb_x = 0;
 	for (int i = 0; i < 3; i++)
