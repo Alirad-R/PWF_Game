@@ -312,6 +312,8 @@ int main()
 			{
 				mytile = i->getTileType();
 				touch = true;
+				if (mytile == 5)
+					remove(tile.begin(), tile.end(), i);
 			}
 			//if (bombSprite.getGlobalBounds().intersects(i->sprite.getGlobalBounds()))
 			//{
@@ -386,6 +388,8 @@ int main()
 				}
 				case Power_life:
 				{
+					player.viking.setPosition(vikingPrevPosition);
+					player.increaseHp();
 					break;
 				}
 				case Power_Speed:
