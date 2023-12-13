@@ -439,11 +439,18 @@ int main()
 				sf::Sprite spriteLives;
 				sf::Sprite spriteLives2;
 				spriteLives.setTexture(LivesTexture);
-				spriteLives.setPosition(515, Screen_height - 50.f);
-				window.draw(spriteLives);
 				spriteLives2.setTexture(LivesTexture);
-				spriteLives2.setPosition(455, Screen_height - 50.f);
-				window.draw(spriteLives2);
+				if (player.hp > 0)
+				{
+					spriteLives.setPosition(515, Screen_height - 50.f);
+					window.draw(spriteLives);
+				}
+				if (player.hp > 1)
+				{
+					spriteLives2.setPosition(455, Screen_height - 50.f);
+					window.draw(spriteLives2);
+				}
+
 
 
 				int minutes = remainingTime / 60;
