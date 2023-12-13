@@ -271,7 +271,7 @@ int main()
 		{
 			//bomb destruction function
 			//bombSprite = bombs.front()->bomb;
-			for (auto &i : tile)
+			b: for (auto &i : tile)
 			{
 				if (i->sprite.getGlobalBounds().intersects(bombs.front()->bomb.getGlobalBounds()))
 				{
@@ -285,6 +285,7 @@ int main()
 						case Destroyable:
 						{
 							remove(tile.begin(), tile.end(), i);
+							goto b;
 							break;
 						}
 					}
